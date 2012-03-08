@@ -52,8 +52,6 @@ if (typeof jQuery != 'undefined') {
 		
 		// automatically calculate the width of the progress bar based on the sizes of other elements
 		autosizeProgress : true,
-		// Hide controls when playing and mouse is not over the video
-		alwaysShowControls: false,
 		// force iPad's native controls
 		iPadUseNativeControls: false,
 		// force iPhone's native controls
@@ -565,17 +563,15 @@ if (typeof jQuery != 'undefined') {
 						t.container
 							.bind('mouseenter mouseover', function () {
 								if (t.controlsEnabled) {
-									//if (!t.options.alwaysShowControls) {	
-										if (mejs.MediaFeatures.isFullScreen())
-										{
-											t.killControlsTimer('enter');
-										}
-										t.showControls();
-										if (mejs.MediaFeatures.isFullScreen())
-										{
-											t.startControlsTimer(2500);	
-										}										
-									//}
+									if (mejs.MediaFeatures.isFullScreen())
+									{
+										t.killControlsTimer('enter');
+									}
+									t.showControls();
+									if (mejs.MediaFeatures.isFullScreen())
+									{
+										t.startControlsTimer(2500);	
+									}
 								}
 							})
 							.bind('mousemove', function() {
@@ -583,29 +579,24 @@ if (typeof jQuery != 'undefined') {
 									if (!t.controlsAreVisible) {
 										t.showControls();
 									}
-									//t.killControlsTimer('move');
-									//if (!t.options.alwaysShowControls) {
-										if (mejs.MediaFeatures.isFullScreen())
-										{
-											t.startControlsTimer(2500);
-										}
-									//}
+									
+									if (mejs.MediaFeatures.isFullScreen())
+									{
+										t.startControlsTimer(2500);
+									}
 								}
 							})
 							.bind('mouseleave', function () {
 								if (t.controlsEnabled) {
-									//if (!t.media.paused && !t.options.alwaysShowControls) {
 									if (mejs.MediaFeatures.isFullScreen())
-										{
+									{
 										t.startControlsTimer(1000);	
-										}										
-									//}
+									}	
 								}
 							});
 					}
 					
 					// check for autoplay
-					//if (autoplay && !t.options.alwaysShowControls) {
 					if (autoplay)
 					{
 						t.hideControls();
@@ -659,8 +650,8 @@ if (typeof jQuery != 'undefined') {
 
 					if (t.options.loop) {
 						t.media.play();
-					//} else if (!t.options.alwaysShowControls && t.controlsEnabled) {
-					} else if (t.controlsEnabled)
+					}
+					else if (t.controlsEnabled)
 					{
 						t.showControls();
 					}
