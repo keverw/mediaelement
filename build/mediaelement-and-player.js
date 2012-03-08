@@ -2073,11 +2073,11 @@ if (typeof jQuery != 'undefined') {
 						t.container
 							.bind('mouseenter mouseover', function () {
 								if (t.controlsEnabled) {
-									if (!t.options.alwaysShowControls) {								
+									//if (!t.options.alwaysShowControls) {								
 										t.killControlsTimer('enter');
 										t.showControls();
 										t.startControlsTimer(2500);		
-									}
+									//}
 								}
 							})
 							.bind('mousemove', function() {
@@ -2086,22 +2086,23 @@ if (typeof jQuery != 'undefined') {
 										t.showControls();
 									}
 									//t.killControlsTimer('move');
-									if (!t.options.alwaysShowControls) {
+									//if (!t.options.alwaysShowControls) {
 										t.startControlsTimer(2500);
-									}
+									//}
 								}
 							})
 							.bind('mouseleave', function () {
 								if (t.controlsEnabled) {
-									if (!t.media.paused && !t.options.alwaysShowControls) {
+									//if (!t.media.paused && !t.options.alwaysShowControls) {
 										t.startControlsTimer(1000);								
-									}
+									//}
 								}
 							});
 					}
 					
 					// check for autoplay
-					if (autoplay && !t.options.alwaysShowControls) {
+					//if (autoplay && !t.options.alwaysShowControls) {
+					if (autoplay) {
 						t.hideControls();
 					}
 
@@ -2153,7 +2154,8 @@ if (typeof jQuery != 'undefined') {
 
 					if (t.options.loop) {
 						t.media.play();
-					} else if (!t.options.alwaysShowControls && t.controlsEnabled) {
+					//} else if (!t.options.alwaysShowControls && t.controlsEnabled) {
+					} else if (t.controlsEnabled) {
 						t.showControls();
 					}
 				}, false);
@@ -3607,31 +3609,23 @@ if (typeof jQuery != 'undefined') {
 								}
 							}
 						});
-						//.bind('mouseenter', function() {
-						//	player.captionsButton.find('.mejs-captions-selector').css('visibility','visible')
-						//});
-
-			if (!player.options.alwaysShowControls) {
+						
 				// move with controls
 				player.container
-					.bind('mouseenter', function () {
-						// push captions above controls
-						player.container.find('.mejs-captions-position').addClass('mejs-captions-position-hover');
+				.bind('mouseenter', function () {
+					// push captions above controls
+					player.container.find('.mejs-captions-position').addClass('mejs-captions-position-hover');
+				})
+				.bind('mouseleave', function () {
+					if (!media.paused) {
+						// move back to normal place
+						player.container.find('.mejs-captions-position').removeClass('mejs-captions-position-hover');
+					}
+				});
 
-					})
-					.bind('mouseleave', function () {
-						if (!media.paused) {
-							// move back to normal place
-							player.container.find('.mejs-captions-position').removeClass('mejs-captions-position-hover');
-						}
-					});
-			} else {
-				player.container.find('.mejs-captions-position').addClass('mejs-captions-position-hover');
-			}
-
-			player.trackToLoad = -1;
-			player.selectedTrack = null;
-			player.isLoadingTrack = false;
+				player.trackToLoad = -1;
+				player.selectedTrack = null;
+				player.isLoadingTrack = false;
 
 			
 
@@ -4240,9 +4234,11 @@ $.extend(mejs.MepDefaults,
 					.appendTo(controls)
 
 					// hover
-					.hover(function() {
+					.hover(function()
+					{
 						$(this).find('.mejs-sourcechooser-selector').css('visibility','visible');
-					}, function() {
+					}, function()
+					{
 						$(this).find('.mejs-sourcechooser-selector').css('visibility','hidden');
 					})
 

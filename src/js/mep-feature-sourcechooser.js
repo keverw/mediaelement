@@ -21,9 +21,11 @@
 					.appendTo(controls)
 
 					// hover
-					.hover(function() {
+					.hover(function()
+					{
 						$(this).find('.mejs-sourcechooser-selector').css('visibility','visible');
-					}, function() {
+					}, function()
+					{
 						$(this).find('.mejs-sourcechooser-selector').css('visibility','hidden');
 					})
 

@@ -539,11 +539,11 @@
 						t.container
 							.bind('mouseenter mouseover', function () {
 								if (t.controlsEnabled) {
-									if (!t.options.alwaysShowControls) {								
+									//if (!t.options.alwaysShowControls) {								
 										t.killControlsTimer('enter');
 										t.showControls();
 										t.startControlsTimer(2500);		
-									}
+									//}
 								}
 							})
 							.bind('mousemove', function() {
@@ -552,22 +552,23 @@
 										t.showControls();
 									}
 									//t.killControlsTimer('move');
-									if (!t.options.alwaysShowControls) {
+									//if (!t.options.alwaysShowControls) {
 										t.startControlsTimer(2500);
-									}
+									//}
 								}
 							})
 							.bind('mouseleave', function () {
 								if (t.controlsEnabled) {
-									if (!t.media.paused && !t.options.alwaysShowControls) {
+									//if (!t.media.paused && !t.options.alwaysShowControls) {
 										t.startControlsTimer(1000);								
-									}
+									//}
 								}
 							});
 					}
 					
 					// check for autoplay
-					if (autoplay && !t.options.alwaysShowControls) {
+					//if (autoplay && !t.options.alwaysShowControls) {
+					if (autoplay) {
 						t.hideControls();
 					}
 
@@ -619,7 +620,8 @@
 
 					if (t.options.loop) {
 						t.media.play();
-					} else if (!t.options.alwaysShowControls && t.controlsEnabled) {
+					//} else if (!t.options.alwaysShowControls && t.controlsEnabled) {
+					} else if (t.controlsEnabled) {
 						t.showControls();
 					}
 				}, false);
