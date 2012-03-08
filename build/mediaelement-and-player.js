@@ -1861,11 +1861,22 @@ if (typeof jQuery != 'undefined') {
 		showControls: function(doAnimation) {
 			var t = this;
 			
+			if (mejs.MediaFeatures.isFullScreen())
+			{
+				t.controls.css('bottom','0')
+				t.controls.css('background-color','');
+			}
+			else
+			{
+				t.controls.css('bottom','-30px');
+				t.controls.css('background-color','#000000');
+			}
+			
 			doAnimation = typeof doAnimation == 'undefined' || doAnimation;
 			
 			if (t.controlsAreVisible)
 				return;
-			
+				
 			if (doAnimation)
 			{
 				t.controls
@@ -1937,7 +1948,11 @@ if (typeof jQuery != 'undefined') {
 					t.controlsAreVisible = false;
 				}
 			}
-		},		
+		},	
+
+		rendercontrols: function(doAnimation) {		
+			alert('later');
+		},	
 
 		controlsTimer: null,
 
@@ -3379,9 +3394,8 @@ if (typeof jQuery != 'undefined') {
 				
 		},
 		enterFullScreen: function() {
-			
 			var t = this;
-			
+			t.rendercontrols();
 			// firefox+flash can't adjust plugin sizes without resetting :(
 			if (t.media.pluginType !== 'native' && (mejs.MediaFeatures.isFirefox || t.options.usePluginFullScreen)) {
 				//t.media.setFullscreen(true);
@@ -3507,7 +3521,7 @@ if (typeof jQuery != 'undefined') {
 		exitFullScreen: function() {
 			var t = this;
 			t.killControlsTimer();
-			t.showControls();
+			t.rendercontrols();
 			// firefox can't adjust plugins
 			if (t.media.pluginType !== 'native' && mejs.MediaFeatures.isFirefox) {				
 				t.media.setFullscreen(false);

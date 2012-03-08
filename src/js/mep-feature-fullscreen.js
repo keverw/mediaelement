@@ -235,9 +235,8 @@
 				
 		},
 		enterFullScreen: function() {
-			
 			var t = this;
-			
+			t.rendercontrols();
 			// firefox+flash can't adjust plugin sizes without resetting :(
 			if (t.media.pluginType !== 'native' && (mejs.MediaFeatures.isFirefox || t.options.usePluginFullScreen)) {
 				//t.media.setFullscreen(true);
@@ -363,7 +362,7 @@
 		exitFullScreen: function() {
 			var t = this;
 			t.killControlsTimer();
-			t.showControls();
+			t.rendercontrols();
 			// firefox can't adjust plugins
 			if (t.media.pluginType !== 'native' && mejs.MediaFeatures.isFirefox) {				
 				t.media.setFullscreen(false);

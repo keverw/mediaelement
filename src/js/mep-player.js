@@ -327,11 +327,22 @@
 		showControls: function(doAnimation) {
 			var t = this;
 			
+			if (mejs.MediaFeatures.isFullScreen())
+			{
+				t.controls.css('bottom','0')
+				t.controls.css('background-color','');
+			}
+			else
+			{
+				t.controls.css('bottom','-30px');
+				t.controls.css('background-color','#000000');
+			}
+			
 			doAnimation = typeof doAnimation == 'undefined' || doAnimation;
 			
 			if (t.controlsAreVisible)
 				return;
-			
+				
 			if (doAnimation)
 			{
 				t.controls
@@ -403,7 +414,11 @@
 					t.controlsAreVisible = false;
 				}
 			}
-		},		
+		},	
+
+		rendercontrols: function(doAnimation) {		
+			alert('later');
+		},
 
 		controlsTimer: null,
 
