@@ -1868,7 +1868,8 @@ if (typeof jQuery != 'undefined') {
 			if (t.controlsAreVisible)
 				return;
 			
-			if (doAnimation) {
+			if (doAnimation)
+			{
 				t.controls
 					.css('visibility','visible')
 					.stop(true, true).fadeIn(200, function() {t.controlsAreVisible = true;});	
@@ -1878,7 +1879,9 @@ if (typeof jQuery != 'undefined') {
 					.css('visibility','visible')
 					.stop(true, true).fadeIn(200, function() {t.controlsAreVisible = true;});	
 					
-			} else {
+			}
+			else
+			{
 				t.controls
 					.css('visibility','visible')
 					.css('display','block');
@@ -1896,49 +1899,53 @@ if (typeof jQuery != 'undefined') {
 		},
 
 		hideControls: function(doAnimation) {
-			var t = this;
-			
-			doAnimation = typeof doAnimation == 'undefined' || doAnimation;
-			
-			if (!t.controlsAreVisible)
+			if (mejs.MediaFeatures.isFullScreen())
+			{
+				var t = this;
+				
+				doAnimation = typeof doAnimation == 'undefined' || doAnimation;
+				
+				if (!t.controlsAreVisible)
 				return;
-			
-			if (doAnimation) {
-				// fade out main controls
-				t.controls.stop(true, true).fadeOut(200, function() {
-					$(this)
+				
+				if (doAnimation) {
+					// fade out main controls
+					t.controls.stop(true, true).fadeOut(200, function() {
+						$(this)
 						.css('visibility','hidden')
 						.css('display','block');
 						
-					t.controlsAreVisible = false;
-				});	
-	
-				// any additional controls people might add and want to hide
-				t.container.find('.mejs-control').stop(true, true).fadeOut(200, function() {
-					$(this)
+						t.controlsAreVisible = false;
+					});	
+					
+					// any additional controls people might add and want to hide
+					t.container.find('.mejs-control').stop(true, true).fadeOut(200, function() {
+						$(this)
 						.css('visibility','hidden')
 						.css('display','block');
-				});	
-			} else {
-				
-				// hide main controls
-				t.controls
+					});	
+				} else {
+					
+					// hide main controls
+					t.controls
 					.css('visibility','hidden')
 					.css('display','block');		
-				
-				// hide others
-				t.container.find('.mejs-control')
+					
+					// hide others
+					t.container.find('.mejs-control')
 					.css('visibility','hidden')
 					.css('display','block');
 					
-				t.controlsAreVisible = false;
+					t.controlsAreVisible = false;
+				}
 			}
 		},		
 
 		controlsTimer: null,
 
 		startControlsTimer: function(timeout) {
-
+		if (mejs.MediaFeatures.isFullScreen())
+				{
 			var t = this;
 			
 			timeout = typeof timeout != 'undefined' ? timeout : 1500;
@@ -1947,9 +1954,10 @@ if (typeof jQuery != 'undefined') {
 
 			t.controlsTimer = setTimeout(function() {
 				//console.log('timer fired');
-				t.hideControls();
+					t.hideControls();
 				t.killControlsTimer('hide');
 			}, timeout);
+			}
 		},
 
 		killControlsTimer: function(src) {
@@ -2046,9 +2054,11 @@ if (typeof jQuery != 'undefined') {
 							
 							
 							// toggle controls
-							if (t.controlsAreVisible) {
+							if (t.controlsAreVisible)
+							{
 								t.hideControls(false);
-							} else {
+							}
+							else {
 								if (t.controlsEnabled) {
 									t.showControls(false);
 								}
@@ -2073,10 +2083,16 @@ if (typeof jQuery != 'undefined') {
 						t.container
 							.bind('mouseenter mouseover', function () {
 								if (t.controlsEnabled) {
-									//if (!t.options.alwaysShowControls) {								
-										t.killControlsTimer('enter');
+									//if (!t.options.alwaysShowControls) {	
+										if (mejs.MediaFeatures.isFullScreen())
+										{
+											t.killControlsTimer('enter');
+										}
 										t.showControls();
-										t.startControlsTimer(2500);		
+										if (mejs.MediaFeatures.isFullScreen())
+										{
+											t.startControlsTimer(2500);	
+										}										
 									//}
 								}
 							})
@@ -2087,14 +2103,20 @@ if (typeof jQuery != 'undefined') {
 									}
 									//t.killControlsTimer('move');
 									//if (!t.options.alwaysShowControls) {
-										t.startControlsTimer(2500);
+										if (mejs.MediaFeatures.isFullScreen())
+										{
+											t.startControlsTimer(2500);
+										}
 									//}
 								}
 							})
 							.bind('mouseleave', function () {
 								if (t.controlsEnabled) {
 									//if (!t.media.paused && !t.options.alwaysShowControls) {
-										t.startControlsTimer(1000);								
+									if (mejs.MediaFeatures.isFullScreen())
+										{
+										t.startControlsTimer(1000);	
+										}										
 									//}
 								}
 							});
@@ -2102,7 +2124,8 @@ if (typeof jQuery != 'undefined') {
 					
 					// check for autoplay
 					//if (autoplay && !t.options.alwaysShowControls) {
-					if (autoplay) {
+					if (autoplay)
+					{
 						t.hideControls();
 					}
 
@@ -2155,7 +2178,8 @@ if (typeof jQuery != 'undefined') {
 					if (t.options.loop) {
 						t.media.play();
 					//} else if (!t.options.alwaysShowControls && t.controlsEnabled) {
-					} else if (t.controlsEnabled) {
+					} else if (t.controlsEnabled)
+					{
 						t.showControls();
 					}
 				}, false);
@@ -3160,7 +3184,8 @@ if (typeof jQuery != 'undefined') {
 				//player.container.bind('webkitfullscreenchange', function(e) {
 				
 					
-					if (mejs.MediaFeatures.isFullScreen()) {
+					if (mejs.MediaFeatures.isFullScreen())
+					{
 						player.isNativeFullScreen = true;
 						// reset the controls once we are fully in full screen
 						player.setControlsSize();
@@ -3187,7 +3212,6 @@ if (typeof jQuery != 'undefined') {
 					
 					fullscreenBtn.click(function() {
 						var isFullScreen = (mejs.MediaFeatures.hasTrueNativeFullScreen && mejs.MediaFeatures.isFullScreen()) || player.isFullScreen;													
-						
 						if (isFullScreen) {
 							player.exitFullScreen();
 						} else {						
@@ -3490,9 +3514,9 @@ if (typeof jQuery != 'undefined') {
 		},
 		
 		exitFullScreen: function() {
-			
-			var t = this;		
-		
+			var t = this;
+			t.killControlsTimer();
+			t.showControls();
 			// firefox can't adjust plugins
 			if (t.media.pluginType !== 'native' && mejs.MediaFeatures.isFirefox) {				
 				t.media.setFullscreen(false);
@@ -3586,9 +3610,14 @@ if (typeof jQuery != 'undefined') {
 						.appendTo(controls)
 						
 						// hover
-						.hover(function() {
-							$(this).find('.mejs-captions-selector').css('visibility','visible');
-						}, function() {
+						.hover(function()
+						{
+							if (mejs.MediaFeatures.isFullScreen())
+							{
+								$(this).find('.mejs-captions-selector').css('visibility','visible');
+							}
+						}, function()
+						{
 							$(this).find('.mejs-captions-selector').css('visibility','hidden');
 						})					
 						
@@ -3650,16 +3679,24 @@ if (typeof jQuery != 'undefined') {
 			player.container.hover(
 				function () {
 					// chapters
-					if (player.hasChapters) {
-						player.chapters.css('visibility','visible');
-						player.chapters.fadeIn(200);
+					if (player.hasChapters)
+					{
+						if (mejs.MediaFeatures.isFullScreen())
+						{
+							player.chapters.css('visibility','visible');
+							player.chapters.fadeIn(200);
+						}
 					}
 				},
 				function () {
 					if (player.hasChapters && !media.paused) {
-						player.chapters.fadeOut(200, function() {
-							$(this).css('visibility','hidden');
-							$(this).css('display','block');
+						player.chapters.fadeOut(200, function()
+						{
+							if (mejs.MediaFeatures.isFullScreen())
+							{
+								$(this).css('visibility','hidden');
+								$(this).css('display','block');
+							}
 						});
 					}
 				});
@@ -4236,10 +4273,16 @@ $.extend(mejs.MepDefaults,
 					// hover
 					.hover(function()
 					{
-						$(this).find('.mejs-sourcechooser-selector').css('visibility','visible');
+						if (mejs.MediaFeatures.isFullScreen())
+						{
+							$(this).find('.mejs-sourcechooser-selector').css('visibility','visible');
+						}
 					}, function()
 					{
-						$(this).find('.mejs-sourcechooser-selector').css('visibility','hidden');
+						if (mejs.MediaFeatures.isFullScreen())
+						{
+							$(this).find('.mejs-sourcechooser-selector').css('visibility','hidden');
+						}	
 					})
 
 					// handle clicks to the language radio buttons

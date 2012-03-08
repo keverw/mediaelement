@@ -31,7 +31,8 @@
 				//player.container.bind('webkitfullscreenchange', function(e) {
 				
 					
-					if (mejs.MediaFeatures.isFullScreen()) {
+					if (mejs.MediaFeatures.isFullScreen())
+					{
 						player.isNativeFullScreen = true;
 						// reset the controls once we are fully in full screen
 						player.setControlsSize();
@@ -58,7 +59,6 @@
 					
 					fullscreenBtn.click(function() {
 						var isFullScreen = (mejs.MediaFeatures.hasTrueNativeFullScreen && mejs.MediaFeatures.isFullScreen()) || player.isFullScreen;													
-						
 						if (isFullScreen) {
 							player.exitFullScreen();
 						} else {						
@@ -361,9 +361,9 @@
 		},
 		
 		exitFullScreen: function() {
-			
-			var t = this;		
-		
+			var t = this;
+			t.killControlsTimer();
+			t.showControls();
 			// firefox can't adjust plugins
 			if (t.media.pluginType !== 'native' && mejs.MediaFeatures.isFirefox) {				
 				t.media.setFullscreen(false);

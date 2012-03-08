@@ -23,10 +23,16 @@
 					// hover
 					.hover(function()
 					{
-						$(this).find('.mejs-sourcechooser-selector').css('visibility','visible');
+						if (mejs.MediaFeatures.isFullScreen())
+						{
+							$(this).find('.mejs-sourcechooser-selector').css('visibility','visible');
+						}
 					}, function()
 					{
-						$(this).find('.mejs-sourcechooser-selector').css('visibility','hidden');
+						if (mejs.MediaFeatures.isFullScreen())
+						{
+							$(this).find('.mejs-sourcechooser-selector').css('visibility','hidden');
+						}	
 					})
 
 					// handle clicks to the language radio buttons

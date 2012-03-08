@@ -334,7 +334,8 @@
 			if (t.controlsAreVisible)
 				return;
 			
-			if (doAnimation) {
+			if (doAnimation)
+			{
 				t.controls
 					.css('visibility','visible')
 					.stop(true, true).fadeIn(200, function() {t.controlsAreVisible = true;});	
@@ -344,7 +345,9 @@
 					.css('visibility','visible')
 					.stop(true, true).fadeIn(200, function() {t.controlsAreVisible = true;});	
 					
-			} else {
+			}
+			else
+			{
 				t.controls
 					.css('visibility','visible')
 					.css('display','block');
@@ -362,49 +365,53 @@
 		},
 
 		hideControls: function(doAnimation) {
-			var t = this;
-			
-			doAnimation = typeof doAnimation == 'undefined' || doAnimation;
-			
-			if (!t.controlsAreVisible)
+			if (mejs.MediaFeatures.isFullScreen())
+			{
+				var t = this;
+				
+				doAnimation = typeof doAnimation == 'undefined' || doAnimation;
+				
+				if (!t.controlsAreVisible)
 				return;
-			
-			if (doAnimation) {
-				// fade out main controls
-				t.controls.stop(true, true).fadeOut(200, function() {
-					$(this)
+				
+				if (doAnimation) {
+					// fade out main controls
+					t.controls.stop(true, true).fadeOut(200, function() {
+						$(this)
 						.css('visibility','hidden')
 						.css('display','block');
 						
-					t.controlsAreVisible = false;
-				});	
-	
-				// any additional controls people might add and want to hide
-				t.container.find('.mejs-control').stop(true, true).fadeOut(200, function() {
-					$(this)
+						t.controlsAreVisible = false;
+					});	
+					
+					// any additional controls people might add and want to hide
+					t.container.find('.mejs-control').stop(true, true).fadeOut(200, function() {
+						$(this)
 						.css('visibility','hidden')
 						.css('display','block');
-				});	
-			} else {
-				
-				// hide main controls
-				t.controls
+					});	
+				} else {
+					
+					// hide main controls
+					t.controls
 					.css('visibility','hidden')
 					.css('display','block');		
-				
-				// hide others
-				t.container.find('.mejs-control')
+					
+					// hide others
+					t.container.find('.mejs-control')
 					.css('visibility','hidden')
 					.css('display','block');
 					
-				t.controlsAreVisible = false;
+					t.controlsAreVisible = false;
+				}
 			}
 		},		
 
 		controlsTimer: null,
 
 		startControlsTimer: function(timeout) {
-
+		if (mejs.MediaFeatures.isFullScreen())
+				{
 			var t = this;
 			
 			timeout = typeof timeout != 'undefined' ? timeout : 1500;
@@ -413,9 +420,10 @@
 
 			t.controlsTimer = setTimeout(function() {
 				//console.log('timer fired');
-				t.hideControls();
+					t.hideControls();
 				t.killControlsTimer('hide');
 			}, timeout);
+			}
 		},
 
 		killControlsTimer: function(src) {
@@ -512,9 +520,11 @@
 							
 							
 							// toggle controls
-							if (t.controlsAreVisible) {
+							if (t.controlsAreVisible)
+							{
 								t.hideControls(false);
-							} else {
+							}
+							else {
 								if (t.controlsEnabled) {
 									t.showControls(false);
 								}
@@ -539,10 +549,16 @@
 						t.container
 							.bind('mouseenter mouseover', function () {
 								if (t.controlsEnabled) {
-									//if (!t.options.alwaysShowControls) {								
-										t.killControlsTimer('enter');
+									//if (!t.options.alwaysShowControls) {	
+										if (mejs.MediaFeatures.isFullScreen())
+										{
+											t.killControlsTimer('enter');
+										}
 										t.showControls();
-										t.startControlsTimer(2500);		
+										if (mejs.MediaFeatures.isFullScreen())
+										{
+											t.startControlsTimer(2500);	
+										}										
 									//}
 								}
 							})
@@ -553,14 +569,20 @@
 									}
 									//t.killControlsTimer('move');
 									//if (!t.options.alwaysShowControls) {
-										t.startControlsTimer(2500);
+										if (mejs.MediaFeatures.isFullScreen())
+										{
+											t.startControlsTimer(2500);
+										}
 									//}
 								}
 							})
 							.bind('mouseleave', function () {
 								if (t.controlsEnabled) {
 									//if (!t.media.paused && !t.options.alwaysShowControls) {
-										t.startControlsTimer(1000);								
+									if (mejs.MediaFeatures.isFullScreen())
+										{
+										t.startControlsTimer(1000);	
+										}										
 									//}
 								}
 							});
@@ -568,7 +590,8 @@
 					
 					// check for autoplay
 					//if (autoplay && !t.options.alwaysShowControls) {
-					if (autoplay) {
+					if (autoplay)
+					{
 						t.hideControls();
 					}
 
@@ -621,7 +644,8 @@
 					if (t.options.loop) {
 						t.media.play();
 					//} else if (!t.options.alwaysShowControls && t.controlsEnabled) {
-					} else if (t.controlsEnabled) {
+					} else if (t.controlsEnabled)
+					{
 						t.showControls();
 					}
 				}, false);

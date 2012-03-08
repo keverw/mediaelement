@@ -43,9 +43,14 @@
 						.appendTo(controls)
 						
 						// hover
-						.hover(function() {
-							$(this).find('.mejs-captions-selector').css('visibility','visible');
-						}, function() {
+						.hover(function()
+						{
+							if (mejs.MediaFeatures.isFullScreen())
+							{
+								$(this).find('.mejs-captions-selector').css('visibility','visible');
+							}
+						}, function()
+						{
 							$(this).find('.mejs-captions-selector').css('visibility','hidden');
 						})					
 						
@@ -107,16 +112,24 @@
 			player.container.hover(
 				function () {
 					// chapters
-					if (player.hasChapters) {
-						player.chapters.css('visibility','visible');
-						player.chapters.fadeIn(200);
+					if (player.hasChapters)
+					{
+						if (mejs.MediaFeatures.isFullScreen())
+						{
+							player.chapters.css('visibility','visible');
+							player.chapters.fadeIn(200);
+						}
 					}
 				},
 				function () {
 					if (player.hasChapters && !media.paused) {
-						player.chapters.fadeOut(200, function() {
-							$(this).css('visibility','hidden');
-							$(this).css('display','block');
+						player.chapters.fadeOut(200, function()
+						{
+							if (mejs.MediaFeatures.isFullScreen())
+							{
+								$(this).css('visibility','hidden');
+								$(this).css('display','block');
+							}
 						});
 					}
 				});
