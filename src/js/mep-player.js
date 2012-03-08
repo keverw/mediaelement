@@ -185,8 +185,7 @@
 		
 		init: function() {
 
-			var
-				t = this,
+			var t = this,
 				mf = mejs.MediaFeatures,
 				// options for MediaElement (shim)
 				meOptions = $.extend(true, {}, t.options, {
@@ -194,7 +193,7 @@
 					error: function(e) { t.handleError(e);}
 				}),
 				tagName = t.media.tagName.toLowerCase();
-		
+				
 			t.isDynamic = (tagName !== 'audio' && tagName !== 'video');
 			
 			if (t.isDynamic) {	
@@ -278,7 +277,9 @@
 				// find parts
 				t.controls = t.container.find('.mejs-controls');
 				t.layers = t.container.find('.mejs-layers');
-
+				
+				t.AlignControls();
+				
 				// determine the size
 				
 				/* size priority:
@@ -324,19 +325,28 @@
 			mejs.MediaElement(t.$media[0], meOptions);
 		},
 		
-		showControls: function(doAnimation) {
+		AlignControls: function() 
+		{
 			var t = this;
 			
 			if (mejs.MediaFeatures.isFullScreen())
 			{
-				t.controls.css('bottom','0')
-				t.controls.css('background-color','');
+				t.controls
+				.css('bottom','0')
+				.css('background-color','');
 			}
 			else
 			{
-				t.controls.css('bottom','-30px');
-				t.controls.css('background-color','#000000');
+				t.controls
+				.css('bottom','-30px')
+				.css('background-color','#000000');
 			}
+		},
+		
+		showControls: function(doAnimation) {
+			var t = this;
+			
+			t.AlignControls();
 			
 			doAnimation = typeof doAnimation == 'undefined' || doAnimation;
 			
@@ -414,10 +424,6 @@
 					t.controlsAreVisible = false;
 				}
 			}
-		},	
-
-		rendercontrols: function(doAnimation) {		
-			alert('later');
 		},
 
 		controlsTimer: null,
@@ -578,7 +584,7 @@
 									if (!t.controlsAreVisible) {
 										t.showControls();
 									}
-									
+									t.AlignControls();
 									if (mejs.MediaFeatures.isFullScreen())
 									{
 										t.startControlsTimer(2500);

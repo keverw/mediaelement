@@ -1719,8 +1719,7 @@ if (typeof jQuery != 'undefined') {
 		
 		init: function() {
 
-			var
-				t = this,
+			var t = this,
 				mf = mejs.MediaFeatures,
 				// options for MediaElement (shim)
 				meOptions = $.extend(true, {}, t.options, {
@@ -1728,7 +1727,7 @@ if (typeof jQuery != 'undefined') {
 					error: function(e) { t.handleError(e);}
 				}),
 				tagName = t.media.tagName.toLowerCase();
-		
+				
 			t.isDynamic = (tagName !== 'audio' && tagName !== 'video');
 			
 			if (t.isDynamic) {	
@@ -1812,7 +1811,9 @@ if (typeof jQuery != 'undefined') {
 				// find parts
 				t.controls = t.container.find('.mejs-controls');
 				t.layers = t.container.find('.mejs-layers');
-
+				
+				t.AlignControls();
+				
 				// determine the size
 				
 				/* size priority:
@@ -1858,19 +1859,28 @@ if (typeof jQuery != 'undefined') {
 			mejs.MediaElement(t.$media[0], meOptions);
 		},
 		
-		showControls: function(doAnimation) {
+		AlignControls: function() 
+		{
 			var t = this;
 			
 			if (mejs.MediaFeatures.isFullScreen())
 			{
-				t.controls.css('bottom','0')
-				t.controls.css('background-color','');
+				t.controls
+				.css('bottom','0')
+				.css('background-color','');
 			}
 			else
 			{
-				t.controls.css('bottom','-30px');
-				t.controls.css('background-color','#000000');
+				t.controls
+				.css('bottom','-30px')
+				.css('background-color','#000000');
 			}
+		},
+		
+		showControls: function(doAnimation) {
+			var t = this;
+			
+			t.AlignControls();
 			
 			doAnimation = typeof doAnimation == 'undefined' || doAnimation;
 			
@@ -1948,11 +1958,7 @@ if (typeof jQuery != 'undefined') {
 					t.controlsAreVisible = false;
 				}
 			}
-		},	
-
-		rendercontrols: function(doAnimation) {		
-			alert('later');
-		},	
+		},
 
 		controlsTimer: null,
 
@@ -2112,7 +2118,7 @@ if (typeof jQuery != 'undefined') {
 									if (!t.controlsAreVisible) {
 										t.showControls();
 									}
-									
+									t.AlignControls();
 									if (mejs.MediaFeatures.isFullScreen())
 									{
 										t.startControlsTimer(2500);
@@ -3395,7 +3401,7 @@ if (typeof jQuery != 'undefined') {
 		},
 		enterFullScreen: function() {
 			var t = this;
-			t.rendercontrols();
+			t.showControls();
 			// firefox+flash can't adjust plugin sizes without resetting :(
 			if (t.media.pluginType !== 'native' && (mejs.MediaFeatures.isFirefox || t.options.usePluginFullScreen)) {
 				//t.media.setFullscreen(true);
@@ -3521,7 +3527,7 @@ if (typeof jQuery != 'undefined') {
 		exitFullScreen: function() {
 			var t = this;
 			t.killControlsTimer();
-			t.rendercontrols();
+			t.showControls();
 			// firefox can't adjust plugins
 			if (t.media.pluginType !== 'native' && mejs.MediaFeatures.isFirefox) {				
 				t.media.setFullscreen(false);
