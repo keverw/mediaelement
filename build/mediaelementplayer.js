@@ -260,7 +260,7 @@ if (typeof jQuery != 'undefined') {
 						'</div>' +
 					'</div>')
 					.addClass(t.$media[0].className)
-					.insertBefore(t.$media);	
+					.insertBefore(t.$media);
 					
 				// add classes for user and content
 				t.container.addClass(
@@ -326,6 +326,10 @@ if (typeof jQuery != 'undefined') {
 				} else {
 					t.height = t.options['default' + capsTagName + 'Height'];
 				}
+				
+				//t.height =  parseInt(t.height) + 30;
+				
+				console.log('height: ' + t.height);
 
 				// set the size, while we wait for the plugins to load below
 				t.setPlayerSize(t.width, t.height);
@@ -345,17 +349,13 @@ if (typeof jQuery != 'undefined') {
 		{
 			var t = this;
 			
-			if (mejs.MediaFeatures.isFullScreen())
+			if (mejs.MediaFeatures.isFullScreen)
 			{
-				t.controls
-				.css('bottom','0')
-				.css('background-color','');
+				t.controls.css('background-color','');
 			}
 			else
 			{
-				t.controls
-				.css('bottom','-30px')
-				.css('background-color','#000000');
+				t.controls.css('background-color','#000000');
 			}
 		},
 		
@@ -772,6 +772,7 @@ if (typeof jQuery != 'undefined') {
 					
 				
 				// set outer container size
+				
 				t.container
 					.width(parentWidth)
 					.height(newHeight);
@@ -780,6 +781,11 @@ if (typeof jQuery != 'undefined') {
 				t.$media
 					.width('100%')
 					.height('100%');
+					
+					//remove 30px
+					$('#' + t.id + ' video').attr({height : '100%'});
+					$('#' + t.id).height(parseInt(newHeight));
+					//end 30px
 					
 				// set shims
 				t.container.find('object, embed, iframe')
@@ -801,6 +807,11 @@ if (typeof jQuery != 'undefined') {
 				t.container
 					.width(t.width)
 					.height(t.height);
+					
+					//add 30px
+					$('#' + t.id + ' video').attr({height : t.height});
+					$('#' + t.id).height(parseInt(t.height) + 30);
+					//end 30px					
 	
 				t.layers.children('.mejs-layer')
 					.width(t.width)

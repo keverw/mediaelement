@@ -363,7 +363,8 @@ mejs.HtmlMediaElementShim = {
 			errorContainer.style.height = htmlMediaElement.height + 'px';
 		} catch (e) {}
 
-		errorContainer.innerHTML = 'Error, Can\'t playback video';
+		//errorContainer.innerHTML = 'Error, Can\'t playback video';
+		errorContainer = 'Error, Can\'t playback video';
 
 		htmlMediaElement.parentNode.insertBefore(errorContainer, htmlMediaElement);
 		htmlMediaElement.style.display = 'none';

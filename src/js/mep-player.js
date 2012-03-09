@@ -333,7 +333,7 @@
 		{
 			var t = this;
 			
-			if (mejs.MediaFeatures.isFullScreen())
+			if (mejs.MediaFeatures.isFullScreen)
 			{
 				t.controls.css('background-color','');
 			}
