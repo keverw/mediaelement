@@ -95,44 +95,29 @@ mejs.PluginMediaElement.prototype = {
 
 	// HTML5 methods
 	play: function () {
-		if (this.pluginApi != null) {
-			if (this.pluginType == 'youtube') {
-				this.pluginApi.playVideo();
-			} else {
-				this.pluginApi.playMedia();
-			}
+		if (this.pluginApi != null)
+		{
+			this.pluginApi.playMedia();
 			this.paused = false;
 		}
 	},
 	load: function () {
-		if (this.pluginApi != null) {
-			if (this.pluginType == 'youtube') {
-			} else {
-				this.pluginApi.loadMedia();
-			}
-			
+		if (this.pluginApi != null)
+		{
+			this.pluginApi.loadMedia();
 			this.paused = false;
 		}
 	},
 	pause: function () {
-		if (this.pluginApi != null) {
-			if (this.pluginType == 'youtube') {
-				this.pluginApi.pauseVideo();
-			} else {
-				this.pluginApi.pauseMedia();
-			}			
-			
-			
+		if (this.pluginApi != null)
+		{
+			this.pluginApi.pauseMedia();
 			this.paused = true;
 		}
 	},
 	stop: function () {
 		if (this.pluginApi != null) {
-			if (this.pluginType == 'youtube') {
-				this.pluginApi.stopVideo();
-			} else {
-				this.pluginApi.stopMedia();
-			}	
+			this.pluginApi.stopMedia();
 			this.paused = true;
 		}
 	},
@@ -196,42 +181,23 @@ mejs.PluginMediaElement.prototype = {
 
 	},
 	setCurrentTime: function (time) {
-		if (this.pluginApi != null) {
-			if (this.pluginType == 'youtube') {
-				this.pluginApi.seekTo(time);
-			} else {
-				this.pluginApi.setCurrentTime(time);
-			}				
-			
-			
-			
+		if (this.pluginApi != null)
+		{
+			this.pluginApi.setCurrentTime(time);
 			this.currentTime = time;
 		}
 	},
 	setVolume: function (volume) {
-		if (this.pluginApi != null) {
-			// same on YouTube and MEjs
-			if (this.pluginType == 'youtube') {
-				this.pluginApi.setVolume(volume * 100);
-			} else {
-				this.pluginApi.setVolume(volume);
-			}
+		if (this.pluginApi != null)
+		{
+			this.pluginApi.setVolume(volume);
 			this.volume = volume;
 		}
 	},
 	setMuted: function (muted) {
-		if (this.pluginApi != null) {
-			if (this.pluginType == 'youtube') {
-				if (muted) {
-					this.pluginApi.mute();
-				} else {
-					this.pluginApi.unMute();
-				}
-				this.muted = muted;
-				this.dispatchEvent('volumechange');
-			} else {
-				this.pluginApi.setMuted(muted);
-			}
+		if (this.pluginApi != null)
+		{
+			this.pluginApi.setMuted(muted);
 			this.muted = muted;
 		}
 	},

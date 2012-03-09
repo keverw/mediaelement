@@ -694,12 +694,7 @@
 					
 					// always adjust controls
 					t.setControlsSize();
-				});				
-
-				// TEMP: needs to be moved somewhere else
-				if (t.media.pluginType == 'youtube') {
-					t.container.find('.mejs-overlay-play').hide();	
-				}
+				});
 			}
 			
 			// force autoplay for HTML5
@@ -707,7 +702,6 @@
 				media.load();
 				media.play();
 			}
-
 
 			if (t.options.success) {
 				
