@@ -11,3 +11,10 @@
 * Dual licensed under the MIT or GPL Version 2 licenses.
 *
 */
+
+if ((/MSIE (\d+\.\d+);/.test(navigator.userAgent))) {
+    // Define console.log
+    var console = {
+     log: function(x) {}
+    }
+   }

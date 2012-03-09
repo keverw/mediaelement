@@ -11,6 +11,13 @@
 * Dual licensed under the MIT or GPL Version 2 licenses.
 *
 */
+
+if ((/MSIE (\d+\.\d+);/.test(navigator.userAgent))) {
+    // Define console.log
+    var console = {
+     log: function(x) {}
+    }
+   }
 // Namespace
 var mejs = mejs || {};
 
@@ -1041,8 +1048,7 @@ mejs.HtmlMediaElementShim = {
 			errorContainer.style.height = htmlMediaElement.height + 'px';
 		} catch (e) {}
 
-		//errorContainer.innerHTML = 'Error, Can\'t playback video';
-		errorContainer = 'Error, Can\'t playback video';
+		errorContainer.innerHTML = 'Error, Can\'t playback video';
 
 		htmlMediaElement.parentNode.insertBefore(errorContainer, htmlMediaElement);
 		htmlMediaElement.style.display = 'none';
