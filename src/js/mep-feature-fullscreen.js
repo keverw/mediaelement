@@ -29,7 +29,6 @@
 				// chrome doesn't alays fire this in an iframe
 				player.container.bind(mejs.MediaFeatures.fullScreenEventName, function(e) {
 				//player.container.bind('webkitfullscreenchange', function(e) {
-				
 					
 					if (mejs.MediaFeatures.isFullScreen())
 					{
@@ -236,13 +235,14 @@
 		},
 		enterFullScreen: function() {
 			var t = this;
-			t.showControls();
+			
 			// firefox+flash can't adjust plugin sizes without resetting :(
 			if (t.media.pluginType !== 'native' && (mejs.MediaFeatures.isFirefox || t.options.usePluginFullScreen)) {
 				//t.media.setFullscreen(true);
 				//player.isFullScreen = true;
 				return;
-			}			
+			}
+			t.showControls();
 						
 			// store overflow 
 			docStyleOverflow = document.documentElement.style.overflow;
@@ -365,7 +365,7 @@
 			t.showControls();
 			// firefox can't adjust plugins
 			if (t.media.pluginType !== 'native' && mejs.MediaFeatures.isFirefox) {				
-				t.media.setFullscreen(false);
+				//t.media.setFullscreen(false);
 				//player.isFullScreen = false;
 				return;
 			}		

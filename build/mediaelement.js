@@ -743,7 +743,7 @@ mejs.HtmlMediaElementShim = {
 			options = mejs.MediaElementDefaults,
 			htmlMediaElement = (typeof(el) == 'string') ? document.getElementById(el) : el,
 			tagName = htmlMediaElement.tagName.toLowerCase(),
-			isMediaTag = (tagName === 'audio' || tagName === 'video'),
+			isMediaTag = (tagName === 'video'),
 			src = (isMediaTag) ? htmlMediaElement.getAttribute('src') : htmlMediaElement.getAttribute('href'),
 			poster = htmlMediaElement.getAttribute('poster'),
 			autoplay =  htmlMediaElement.getAttribute('autoplay'),
@@ -854,15 +854,15 @@ mejs.HtmlMediaElementShim = {
 						
 			if (!isMediaTag) {
 
-				// create a real HTML5 Media Element 
-				dummy = document.createElement( result.isVideo ? 'video' : 'audio');			
+				// create a real HTML5 Media Element
+				dummy = document.createElement('video');
 				htmlMediaElement.parentNode.insertBefore(dummy, htmlMediaElement);
 				htmlMediaElement.style.display = 'none';
 				
 				// use this one from now on
 				result.htmlMediaElement = htmlMediaElement = dummy;
 			}
-				
+			
 			for (i=0; i<mediaFiles.length; i++) {
 				// normal check
 				if (htmlMediaElement.canPlayType(mediaFiles[i].type).replace(/no/, '') !== '' 

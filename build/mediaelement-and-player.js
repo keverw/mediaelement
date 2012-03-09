@@ -743,7 +743,7 @@ mejs.HtmlMediaElementShim = {
 			options = mejs.MediaElementDefaults,
 			htmlMediaElement = (typeof(el) == 'string') ? document.getElementById(el) : el,
 			tagName = htmlMediaElement.tagName.toLowerCase(),
-			isMediaTag = (tagName === 'audio' || tagName === 'video'),
+			isMediaTag = (tagName === 'video'),
 			src = (isMediaTag) ? htmlMediaElement.getAttribute('src') : htmlMediaElement.getAttribute('href'),
 			poster = htmlMediaElement.getAttribute('poster'),
 			autoplay =  htmlMediaElement.getAttribute('autoplay'),
@@ -854,15 +854,15 @@ mejs.HtmlMediaElementShim = {
 						
 			if (!isMediaTag) {
 
-				// create a real HTML5 Media Element 
-				dummy = document.createElement( result.isVideo ? 'video' : 'audio');			
+				// create a real HTML5 Media Element
+				dummy = document.createElement('video');
 				htmlMediaElement.parentNode.insertBefore(dummy, htmlMediaElement);
 				htmlMediaElement.style.display = 'none';
 				
 				// use this one from now on
 				result.htmlMediaElement = htmlMediaElement = dummy;
 			}
-				
+			
 			for (i=0; i<mediaFiles.length; i++) {
 				// normal check
 				if (htmlMediaElement.canPlayType(mediaFiles[i].type).replace(/no/, '') !== '' 
@@ -3048,13 +3048,14 @@ if (typeof jQuery != 'undefined') {
 		},
 		enterFullScreen: function() {
 			var t = this;
-			t.showControls();
+			
 			// firefox+flash can't adjust plugin sizes without resetting :(
 			if (t.media.pluginType !== 'native' && (mejs.MediaFeatures.isFirefox || t.options.usePluginFullScreen)) {
 				//t.media.setFullscreen(true);
 				//player.isFullScreen = true;
 				return;
-			}			
+			}
+			t.showControls();
 						
 			// store overflow 
 			docStyleOverflow = document.documentElement.style.overflow;
@@ -3177,7 +3178,7 @@ if (typeof jQuery != 'undefined') {
 			t.showControls();
 			// firefox can't adjust plugins
 			if (t.media.pluginType !== 'native' && mejs.MediaFeatures.isFirefox) {				
-				t.media.setFullscreen(false);
+				//t.media.setFullscreen(false);
 				//player.isFullScreen = false;
 				return;
 			}		
