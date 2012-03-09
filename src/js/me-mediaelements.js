@@ -55,7 +55,7 @@ mejs.HtmlMediaElement = {
 };
 
 /*
-Mimics the <video/audio> element by calling Flash's External Interface or Silverlights [ScriptableMember]
+Mimics the <video/audio> element by calling Flash's External Interface
 */
 mejs.PluginMediaElement = function (pluginid, pluginType, mediaUrl) {
 	this.id = pluginid;
@@ -204,16 +204,13 @@ mejs.PluginMediaElement.prototype = {
 
 	// additional non-HTML5 methods
 	setVideoSize: function (width, height) {
-		
-		//if (this.pluginType == 'flash' || this.pluginType == 'silverlight') {
-			if ( this.pluginElement.style) {
-				this.pluginElement.style.width = width + 'px';
-				this.pluginElement.style.height = height + 'px';
-			}
-			if (this.pluginApi != null && this.pluginApi.setVideoSize) {
-				this.pluginApi.setVideoSize(width, height);
-			}
-		//}
+		if ( this.pluginElement.style) {
+			this.pluginElement.style.width = width + 'px';
+			this.pluginElement.style.height = height + 'px';
+		}
+		if (this.pluginApi != null && this.pluginApi.setVideoSize) {
+			this.pluginApi.setVideoSize(width, height);
+		}
 	},
 
 	setFullscreen: function (fullscreen) {

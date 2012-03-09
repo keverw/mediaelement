@@ -29,9 +29,6 @@ mejs.meIndex = 0;
 
 // media types accepted by plugins
 mejs.plugins = {
-	silverlight: [
-		{version: [3,0], types: ['video/mp4','video/m4v','video/mov','video/wmv','audio/wma','audio/m4a','audio/mp3','audio/wav','audio/mpeg']}
-	],
 	flash: [
 		{version: [9,0,124], types: ['video/mp4','video/m4v','video/mov','video/flv','video/x-flv','audio/flv','audio/x-flv','audio/mp3','audio/m4a','audio/mpeg']}
 		//,{version: [12,0], types: ['video/webm']} // for future reference (hopefully!)
@@ -221,29 +218,6 @@ mejs.PluginDetector.addPlugin('flash','Shockwave Flash','application/x-shockwave
 	return version;
 });
 
-// Add Silverlight detection
-mejs.PluginDetector.addPlugin('silverlight','Silverlight Plug-In','application/x-silverlight-2','AgControl.AgControl', function (ax) {
-	// Silverlight cannot report its version number to IE
-	// but it does have a isVersionSupported function, so we have to loop through it to get a version number.
-	// adapted from http://www.silverlightversion.com/
-	var v = [0,0,0,0],
-		loopMatch = function(ax, v, i, n) {
-			while(ax.isVersionSupported(v[0]+ "."+ v[1] + "." + v[2] + "." + v[3])){
-				v[i]+=n;
-			}
-			v[i] -= n;
-		};
-	loopMatch(ax, v, 0, 1);
-	loopMatch(ax, v, 1, 1);
-	loopMatch(ax, v, 2, 10000); // the third place in the version number is usually 5 digits (4.0.xxxxx)
-	loopMatch(ax, v, 2, 1000);
-	loopMatch(ax, v, 2, 100);
-	loopMatch(ax, v, 2, 10);
-	loopMatch(ax, v, 2, 1);
-	loopMatch(ax, v, 3, 1);
-
-	return v;
-});
 // add adobe acrobat
 /*
 PluginDetector.addPlugin('acrobat','Adobe Acrobat','application/pdf','AcroPDF.PDF', function (ax) {
@@ -408,7 +382,7 @@ mejs.HtmlMediaElement = {
 };
 
 /*
-Mimics the <video/audio> element by calling Flash's External Interface or Silverlights [ScriptableMember]
+Mimics the <video/audio> element by calling Flash's External Interface
 */
 mejs.PluginMediaElement = function (pluginid, pluginType, mediaUrl) {
 	this.id = pluginid;
@@ -557,16 +531,13 @@ mejs.PluginMediaElement.prototype = {
 
 	// additional non-HTML5 methods
 	setVideoSize: function (width, height) {
-		
-		//if (this.pluginType == 'flash' || this.pluginType == 'silverlight') {
-			if ( this.pluginElement.style) {
-				this.pluginElement.style.width = width + 'px';
-				this.pluginElement.style.height = height + 'px';
-			}
-			if (this.pluginApi != null && this.pluginApi.setVideoSize) {
-				this.pluginApi.setVideoSize(width, height);
-			}
-		//}
+		if ( this.pluginElement.style) {
+			this.pluginElement.style.width = width + 'px';
+			this.pluginElement.style.height = height + 'px';
+		}
+		if (this.pluginApi != null && this.pluginApi.setVideoSize) {
+			this.pluginApi.setVideoSize(width, height);
+		}
 	},
 
 	setFullscreen: function (fullscreen) {
@@ -643,7 +614,7 @@ mejs.PluginMediaElement.prototype = {
 	}
 };
 
-// Handles calls from Flash/Silverlight and reports them as native <video/audio> events and properties
+// Handles calls from Flash and reports them as native <video/audio> events and properties
 mejs.MediaPluginBridge = {
 
 	pluginMediaElements:{},
@@ -654,7 +625,7 @@ mejs.MediaPluginBridge = {
 		this.htmlMediaElements[id] = htmlMediaElement;
 	},
 
-	// when Flash/Silverlight is ready, it calls out to this method
+	// when Flash is ready, it calls out to this method
 	initPlugin: function (id) {
 
 		var pluginMediaElement = this.pluginMediaElements[id],
@@ -666,10 +637,6 @@ mejs.MediaPluginBridge = {
 				case "flash":
 					pluginMediaElement.pluginElement = pluginMediaElement.pluginApi = document.getElementById(id);
 					break;
-				case "silverlight":
-					pluginMediaElement.pluginElement = document.getElementById(pluginMediaElement.id);
-					pluginMediaElement.pluginApi = pluginMediaElement.pluginElement.Content.MediaElementJS;
-					break;
 			}
 	
 			if (pluginMediaElement.pluginApi != null && pluginMediaElement.success) {
@@ -678,7 +645,7 @@ mejs.MediaPluginBridge = {
 		}
 	},
 
-	// receives events from Flash/Silverlight and sends them out as HTML5 media events
+	// receives events from Flash and sends them out as HTML5 media events
 	// http://www.whatwg.org/specs/web-apps/current-work/multipage/video.html
 	fireEvent: function (id, eventName, values) {
 
@@ -724,26 +691,24 @@ mejs.MediaPluginBridge = {
 Default options
 */
 mejs.MediaElementDefaults = {
-	// allows testing on HTML5, flash, silverlight
+	// allows testing on HTML5, flash
 	// auto: attempts to detect what the browser can do
 	// native: forces HTML5 playback
-	// shim: disallows HTML5, will attempt either Flash or Silverlight
+	// shim: disallows HTML5, will attempt either Flash
 	// none: forces fallback view
 	mode: 'auto',
 	// remove or reorder to change plugin priority and availability
-	plugins: ['flash','silverlight','youtube'],
+	plugins: ['flash'],
 	// shows debug errors on screen
 	enablePluginDebug: false,
 	// overrides the type specified, useful for dynamic instantiation
 	type: '',
-	// path to Flash and Silverlight plugins
+	// path to Flash plugin
 	pluginPath: mejs.Utility.getScriptPath(['mediaelement.js','mediaelement.min.js','mediaelement-and-player.js','mediaelement-and-player.min.js']),
 	// name of flash file
 	flashName: 'flashmediaelement.swf',
 	// turns on the smoothing filter in Flash
 	enablePluginSmoothing: false,
-	// name of silverlight file
-	silverlightName: 'silverlightmediaelement.xap',
 	// default if the <video width> is not specified
 	defaultVideoWidth: 480,
 	// default if the <video height> is not specified
@@ -754,7 +719,7 @@ mejs.MediaElementDefaults = {
 	pluginHeight: -1,
 	// additional plugin variables in 'key=value' form
 	pluginVars: [],	
-	// rate in milliseconds for Flash and Silverlight to fire the timeupdate event
+	// rate in milliseconds for Flash to fire the timeupdate event
 	// larger number is less accurate, but less strain on plugin->JavaScript bridge
 	timerRate: 250,
 	// initial volume for player
@@ -765,7 +730,7 @@ mejs.MediaElementDefaults = {
 
 /*
 Determines if a browser supports the <video> or <audio> element
-and returns either the native element or a Flash/Silverlight version that
+and returns either the native element or a Flash version that
 mimics HTML5 MediaElement
 */
 mejs.MediaElement = function (el, o) {
@@ -820,7 +785,7 @@ mejs.HtmlMediaElementShim = {
 			
 			return this.createPlugin( playback,  options, poster, autoplay, preload, controls);
 		} else {
-			// boo, no HTML5, no Flash, no Silverlight.
+			// boo, no HTML5, no Flash.
 			this.createErrorMessage( playback, options, poster );
 			
 			return this;
@@ -931,7 +896,7 @@ mejs.HtmlMediaElementShim = {
 			for (i=0; i<mediaFiles.length; i++) {
 				type = mediaFiles[i].type;
 
-				// test all plugins in order of preference [silverlight, flash]
+				// test all plugins in order of preference [flash]
 				for (j=0; j<options.plugins.length; j++) {
 
 					pluginName = options.plugins[j];
@@ -1079,7 +1044,7 @@ mejs.HtmlMediaElementShim = {
 				document.body.insertBefore(container, document.body.childNodes[0]);
 		}
 
-		// flash/silverlight vars
+		// flash vars
 		initVars = [
 			'id=' + pluginid,
 			'isvideo=' + ((playback.isVideo) ? "true" : "false"),
@@ -1111,20 +1076,7 @@ mejs.HtmlMediaElementShim = {
 		}		
 
 		switch (playback.method) {
-			case 'silverlight':
-				container.innerHTML =
-'<object data="data:application/x-silverlight-2," type="application/x-silverlight-2" id="' + pluginid + '" name="' + pluginid + '" width="' + width + '" height="' + height + '">' +
-'<param name="initParams" value="' + initVars.join(',') + '" />' +
-'<param name="windowless" value="true" />' +
-'<param name="background" value="black" />' +
-'<param name="minRuntimeVersion" value="3.0.0.0" />' +
-'<param name="autoUpgrade" value="true" />' +
-'<param name="source" value="' + options.pluginPath + options.silverlightName + '" />' +
-'</object>';
-					break;
-
 			case 'flash':
-
 				if (mejs.MediaFeatures.isIE) {
 					specialIEContainer = document.createElement('div');
 					container.appendChild(specialIEContainer);
@@ -1227,7 +1179,7 @@ window.MediaElement = mejs.MediaElement;
  * http://mediaelementjs.com/
  *
  * Creates a controller bar for HTML5 <video> add <audio> tags
- * using jQuery and MediaElement.js (HTML5 Flash/Silverlight wrapper)
+ * using jQuery and MediaElement.js (HTML5 Flash wrapper)
  *
  * Copyright 2010-2012, John Dyer (http://j.hn/)
  * Dual licensed under the MIT or GPL Version 2 licenses.
