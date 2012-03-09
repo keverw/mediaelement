@@ -363,9 +363,7 @@ mejs.HtmlMediaElementShim = {
 			errorContainer.style.height = htmlMediaElement.height + 'px';
 		} catch (e) {}
 
-		errorContainer.innerHTML = (poster !== '') ?
-			'<a href="' + playback.url + '"><img src="' + poster + '" width="100%" height="100%" /></a>' :
-			'<a href="' + playback.url + '"><span>Download File</span></a>';
+		errorContainer.innerHTML = 'Error, Can\'t playback video';
 
 		htmlMediaElement.parentNode.insertBefore(errorContainer, htmlMediaElement);
 		htmlMediaElement.style.display = 'none';
