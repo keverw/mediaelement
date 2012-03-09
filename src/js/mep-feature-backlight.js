@@ -295,7 +295,7 @@
 						calcMidColor(imgdata.data)
 					);
 				} catch (e) {
-					console.log(e);
+					//console.log(e);
 				}
 			}
 		} else {
@@ -307,7 +307,7 @@
 						calcMidColor(imgdata.data)
 					);
 				} catch (e) {
-					console.log(e);
+					//console.log(e);
 				}
 
 			}

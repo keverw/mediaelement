@@ -313,7 +313,7 @@
 				
 				//t.height =  parseInt(t.height) + 30;
 				
-				console.log('height: ' + t.height);
+				//console.log('height: ' + t.height);
 
 				// set the size, while we wait for the plugins to load below
 				t.setPlayerSize(t.width, t.height);
