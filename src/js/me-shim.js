@@ -223,13 +223,6 @@ mejs.HtmlMediaElementShim = {
 				}
 			}
 		}
-		
-		// in the case of dynamicly created players
-		// check for audio types
-		if (!isMediaTag && mediaFiles.length > 0 && mediaFiles[0].url !== null && this.getTypeFromFile(mediaFiles[0].url).indexOf('audio') > -1) {
-			result.isVideo = false;
-		}
-		
 
 		// STEP 2: Test for playback method
 		
@@ -326,7 +319,8 @@ mejs.HtmlMediaElementShim = {
 		var ext;
 
 		// if no type is supplied, fake it with the extension
-		if (url && !type) {		
+		if (url && !type) {
+			console.log('type: ' + this.getTypeFromFile(url));
 			return this.getTypeFromFile(url);
 		} else {
 			// only return the mime part of the type in case the attribute contains the codec
@@ -343,7 +337,7 @@ mejs.HtmlMediaElementShim = {
 	
 	getTypeFromFile: function(url) {
 		var ext = url.substring(url.lastIndexOf('.') + 1);
-		return (/(mp4|m4v|ogg|ogv|webm|flv|wmv|mpeg|mov)/gi.test(ext) ? 'video' : 'audio') + '/' + ext;
+		return 'video/' + ext;
 	},
 
 	createErrorMessage: function(playback, options, poster) {

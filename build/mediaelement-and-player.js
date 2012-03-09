@@ -1,6 +1,6 @@
 /*!
 * MediaElement.js
-* HTML5 <video> and <audio> shim and player
+* HTML5 <video> shim and player
 * http://mediaelementjs.com/
 *
 * Creates a JavaScript object that mimics HTML5 MediaElement API
@@ -13,11 +13,11 @@
 */
 
 if ((/MSIE (\d+\.\d+);/.test(navigator.userAgent))) {
-    // Define console.log
-    var console = {
-     log: function(x) {}
-    }
-   }
+	// Define console.log
+	var console = {
+		log: function(x) {}
+	}
+}
 // Namespace
 var mejs = mejs || {};
 
@@ -30,7 +30,7 @@ mejs.meIndex = 0;
 // media types accepted by plugins
 mejs.plugins = {
 	flash: [
-		{version: [9,0,124], types: ['video/mp4','video/m4v','video/mov','video/flv','video/x-flv','audio/flv','audio/x-flv','audio/mp3','audio/m4a','audio/mpeg']}
+		{version: [9,0,124], types: ['video/mp4','video/m4v','video/mov','video/flv','video/x-flv']}
 		//,{version: [12,0], types: ['video/webm']} // for future reference (hopefully!)
 	]
 };
@@ -240,7 +240,7 @@ mejs.MediaFeatures = {
 			ua = mejs.PluginDetector.ua.toLowerCase(),
 			i,
 			v,
-			html5Elements = ['source','track','audio','video'];
+			html5Elements = ['source','track','video'];
 
 		// detect browsers (only the ones that have some kind of quirk we need to work around)
 		t.isiPad = (ua.match(/ipad/i) !== null);
@@ -325,9 +325,8 @@ mejs.MediaFeatures = {
 };
 mejs.MediaFeatures.init();
 
-
 /*
-extension methods to <video> or <audio> object to bring it into parity with PluginMediaElement (see below)
+extension methods to <video> object to bring it into parity with PluginMediaElement (see below)
 */
 mejs.HtmlMediaElement = {
 	pluginType: 'native',
@@ -382,7 +381,7 @@ mejs.HtmlMediaElement = {
 };
 
 /*
-Mimics the <video/audio> element by calling Flash's External Interface
+Mimics the <video> element by calling Flash's External Interface
 */
 mejs.PluginMediaElement = function (pluginid, pluginType, mediaUrl) {
 	this.id = pluginid;
@@ -729,7 +728,7 @@ mejs.MediaElementDefaults = {
 };
 
 /*
-Determines if a browser supports the <video> or <audio> element
+Determines if a browser supports the <video> element
 and returns either the native element or a Flash version that
 mimics HTML5 MediaElement
 */
@@ -839,13 +838,6 @@ mejs.HtmlMediaElementShim = {
 				}
 			}
 		}
-		
-		// in the case of dynamicly created players
-		// check for audio types
-		if (!isMediaTag && mediaFiles.length > 0 && mediaFiles[0].url !== null && this.getTypeFromFile(mediaFiles[0].url).indexOf('audio') > -1) {
-			result.isVideo = false;
-		}
-		
 
 		// STEP 2: Test for playback method
 		
@@ -942,7 +934,8 @@ mejs.HtmlMediaElementShim = {
 		var ext;
 
 		// if no type is supplied, fake it with the extension
-		if (url && !type) {		
+		if (url && !type) {
+			console.log('type: ' + this.getTypeFromFile(url));
 			return this.getTypeFromFile(url);
 		} else {
 			// only return the mime part of the type in case the attribute contains the codec
@@ -959,7 +952,7 @@ mejs.HtmlMediaElementShim = {
 	
 	getTypeFromFile: function(url) {
 		var ext = url.substring(url.lastIndexOf('.') + 1);
-		return (/(mp4|m4v|ogg|ogv|webm|flv|wmv|mpeg|mov)/gi.test(ext) ? 'video' : 'audio') + '/' + ext;
+		return 'video/' + ext;
 	},
 
 	createErrorMessage: function(playback, options, poster) {
@@ -1178,7 +1171,7 @@ window.MediaElement = mejs.MediaElement;
  * MediaElementPlayer
  * http://mediaelementjs.com/
  *
- * Creates a controller bar for HTML5 <video> add <audio> tags
+ * Creates a controller bar for HTML5 <video> tags
  * using jQuery and MediaElement.js (HTML5 Flash wrapper)
  *
  * Copyright 2010-2012, John Dyer (http://j.hn/)
@@ -1203,15 +1196,7 @@ if (typeof jQuery != 'undefined') {
 		// if set, overrides <video width>
 		videoWidth: -1,
 		// if set, overrides <video height>
-		videoHeight: -1,
-		// default if the user doesn't specify
-		defaultAudioWidth: 400,
-		// default if the user doesn't specify
-		defaultAudioHeight: 30,
-		// width of audio player
-		audioWidth: -1,
-		// height of audio player
-		audioHeight: -1,		
+		videoHeight: -1,		
 		// initial volume when the player starts (overrided by user cookie)
 		startVolume: 0.8,
 		// useful for <audio> player loops
@@ -2607,9 +2592,8 @@ if (typeof jQuery != 'undefined') {
 	$.extend(mejs.MepDefaults, {
 		muteText: 'Mute Toggle',
 		hideVolumeOnTouchDevices: true,
-		
 		audioVolume: 'horizontal',
-		videoVolume: 'vertical'
+		videoVolume: 'vertical' // or horizontal
 	});
 
 	$.extend(MediaElementPlayer.prototype, {

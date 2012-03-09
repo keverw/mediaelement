@@ -2,7 +2,7 @@
  * MediaElementPlayer
  * http://mediaelementjs.com/
  *
- * Creates a controller bar for HTML5 <video> add <audio> tags
+ * Creates a controller bar for HTML5 <video> tags
  * using jQuery and MediaElement.js (HTML5 Flash wrapper)
  *
  * Copyright 2010-2012, John Dyer (http://j.hn/)
@@ -27,15 +27,7 @@ if (typeof jQuery != 'undefined') {
 		// if set, overrides <video width>
 		videoWidth: -1,
 		// if set, overrides <video height>
-		videoHeight: -1,
-		// default if the user doesn't specify
-		defaultAudioWidth: 400,
-		// default if the user doesn't specify
-		defaultAudioHeight: 30,
-		// width of audio player
-		audioWidth: -1,
-		// height of audio player
-		audioHeight: -1,		
+		videoHeight: -1,		
 		// initial volume when the player starts (overrided by user cookie)
 		startVolume: 0.8,
 		// useful for <audio> player loops
@@ -1431,9 +1423,8 @@ if (typeof jQuery != 'undefined') {
 	$.extend(mejs.MepDefaults, {
 		muteText: 'Mute Toggle',
 		hideVolumeOnTouchDevices: true,
-		
 		audioVolume: 'horizontal',
-		videoVolume: 'vertical'
+		videoVolume: 'vertical' // or horizontal
 	});
 
 	$.extend(MediaElementPlayer.prototype, {
