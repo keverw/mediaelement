@@ -38,9 +38,6 @@ mejs.plugins = {
 	],
 	youtube: [
 		{version: null, types: ['video/youtube']}
-	],
-	vimeo: [
-		{version: null, types: ['video/vimeo']}
 	]
 };
 
@@ -771,7 +768,7 @@ mejs.MediaElementDefaults = {
 	// none: forces fallback view
 	mode: 'auto',
 	// remove or reorder to change plugin priority and availability
-	plugins: ['flash','silverlight','youtube','vimeo'],
+	plugins: ['flash','silverlight','youtube'],
 	// shows debug errors on screen
 	enablePluginDebug: false,
 	// overrides the type specified, useful for dynamic instantiation
@@ -984,7 +981,7 @@ mejs.HtmlMediaElementShim = {
 					
 						// test if user has the correct plugin version
 						
-						// for youtube/vimeo
+						// for youtube
 						if (pluginInfo.version == null || 
 							
 							mejs.PluginDetector.hasPluginVersion(pluginName, pluginInfo.version)) {
@@ -1219,24 +1216,7 @@ mejs.HtmlMediaElementShim = {
 					mejs.YouTubeApi.enqueueIframe(youtubeSettings);		
 				}
 				
-				break;
-			
-			// DEMO Code. Does NOT work.
-			case 'vimeo':
-				//console.log('vimeoid');
-				
-				pluginMediaElement.vimeoid = playback.url.substr(playback.url.lastIndexOf('/')+1);
-				
-				container.innerHTML =
-					'<object width="' + width + '" height="' + height + '">' +
-						'<param name="allowfullscreen" value="true" />' +
-						'<param name="allowscriptaccess" value="always" />' +
-						'<param name="flashvars" value="api=1" />' + 
-						'<param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=' + pluginMediaElement.vimeoid  + '&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=0&amp;show_portrait=0&amp;color=00adef&amp;fullscreen=1&amp;autoplay=0&amp;loop=0" />' +
-						'<embed src="//vimeo.com/moogaloop.swf?api=1&amp;clip_id=' + pluginMediaElement.vimeoid + '&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=0&amp;show_portrait=0&amp;color=00adef&amp;fullscreen=1&amp;autoplay=0&amp;loop=0" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="' + width + '" height="' + height + '"></embed>' +
-					'</object>';
-					
-				break;			
+				break;		
 		}
 		// hide original element
 		htmlMediaElement.style.display = 'none';

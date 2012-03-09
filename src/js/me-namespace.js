@@ -18,8 +18,5 @@ mejs.plugins = {
 	],
 	youtube: [
 		{version: null, types: ['video/youtube']}
-	],
-	vimeo: [
-		{version: null, types: ['video/vimeo']}
 	]
 };
