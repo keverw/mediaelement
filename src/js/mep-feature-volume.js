@@ -3,9 +3,8 @@
 	$.extend(mejs.MepDefaults, {
 		muteText: 'Mute Toggle',
 		hideVolumeOnTouchDevices: true,
-		
 		audioVolume: 'horizontal',
-		videoVolume: 'vertical'
+		videoVolume: 'vertical' // or horizontal
 	});
 
 	$.extend(MediaElementPlayer.prototype, {

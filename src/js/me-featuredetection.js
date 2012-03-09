@@ -8,7 +8,7 @@ mejs.MediaFeatures = {
 			ua = mejs.PluginDetector.ua.toLowerCase(),
 			i,
 			v,
-			html5Elements = ['source','track','audio','video'];
+			html5Elements = ['source','track','video'];
 
 		// detect browsers (only the ones that have some kind of quirk we need to work around)
 		t.isiPad = (ua.match(/ipad/i) !== null);

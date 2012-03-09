@@ -1,6 +1,6 @@
 /*!
 * MediaElement.js
-* HTML5 <video> and <audio> shim and player
+* HTML5 <video> shim and player
 * http://mediaelementjs.com/
 *
 * Creates a JavaScript object that mimics HTML5 MediaElement API
@@ -13,8 +13,8 @@
 */
 
 if ((/MSIE (\d+\.\d+);/.test(navigator.userAgent))) {
-    // Define console.log
-    var console = {
-     log: function(x) {}
-    }
-   }
+	// Define console.log
+	var console = {
+		log: function(x) {}
+	}
+}

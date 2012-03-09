@@ -11,15 +11,7 @@
 		// if set, overrides <video width>
 		videoWidth: -1,
 		// if set, overrides <video height>
-		videoHeight: -1,
-		// default if the user doesn't specify
-		defaultAudioWidth: 400,
-		// default if the user doesn't specify
-		defaultAudioHeight: 30,
-		// width of audio player
-		audioWidth: -1,
-		// height of audio player
-		audioHeight: -1,		
+		videoHeight: -1,		
 		// initial volume when the player starts (overrided by user cookie)
 		startVolume: 0.8,
 		// useful for <audio> player loops

@@ -1,6 +1,5 @@
-
 /*
-extension methods to <video> or <audio> object to bring it into parity with PluginMediaElement (see below)
+extension methods to <video> object to bring it into parity with PluginMediaElement (see below)
 */
 mejs.HtmlMediaElement = {
 	pluginType: 'native',
@@ -55,7 +54,7 @@ mejs.HtmlMediaElement = {
 };
 
 /*
-Mimics the <video/audio> element by calling Flash's External Interface
+Mimics the <video> element by calling Flash's External Interface
 */
 mejs.PluginMediaElement = function (pluginid, pluginType, mediaUrl) {
 	this.id = pluginid;

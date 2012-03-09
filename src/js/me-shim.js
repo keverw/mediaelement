@@ -113,7 +113,7 @@ mejs.MediaElementDefaults = {
 };
 
 /*
-Determines if a browser supports the <video> or <audio> element
+Determines if a browser supports the <video> element
 and returns either the native element or a Flash version that
 mimics HTML5 MediaElement
 */
